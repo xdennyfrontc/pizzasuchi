@@ -1,6 +1,7 @@
 /* ===== Главная страница: меню, выгода, корзина, чек ===== */
 
 let category = 'all';
+let query = '';                       // текст из строки поиска
 let mode = 'delivery';                // 'delivery' или 'pickup'
 let cart = DB.get('cart', []);        // элемент корзины: { id, qty }
 
@@ -27,7 +28,19 @@ function renderTabs() {
   document.getElementById('tabs').innerHTML = html;
 }
 
-function setCategory(id) { category = id; renderTabs(); renderMenu(); }
+function setCategory(id) {
+  category = id;
+  query = '';                                        // выбор категории сбрасывает поиск
+  document.getElementById('searchInput').value = '';
+  renderTabs();
+  renderMenu();
+}
+
+// Поиск по названию среди всех категорий
+function searchMenu(text) {
+  query = text.trim().toLowerCase();
+  renderMenu();
+}
 
 // HTML одной карточки товара (если есть старая цена — зелёная цена, скидка и перечёркнутая цена)
 function cardHtml(p) {
@@ -45,8 +58,15 @@ function cardHtml(p) {
 }
 
 function renderMenu() {
-  const list = getProducts().filter(p => category === 'all' || p.category === category);
-  document.getElementById('menu').innerHTML = list.map(cardHtml).join('') || '<p class="desc">В этой категории пока пусто</p>';
+  let list = getProducts();
+  if (query !== '') {
+    list = list.filter(p => p.name.toLowerCase().includes(query));   // поиск игнорирует категорию
+  } else if (category !== 'all') {
+    list = list.filter(p => p.category === category);
+  }
+  document.getElementById('menuTitle').textContent = query !== '' ? 'Результаты поиска' : 'Меню';
+  const empty = query !== '' ? 'Ничего не найдено' : 'В этой категории пока пусто';
+  document.getElementById('menu').innerHTML = list.map(cardHtml).join('') || '<p class="desc">' + empty + '</p>';
 }
 
 // ---------- Блок «Выгода» ----------

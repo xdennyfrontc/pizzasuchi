@@ -11,6 +11,9 @@
   <!-- Шапка сайта -->
   <header class="header">
     <a class="logo" href="index.html">PizzaSushiWrot</a>
+    <div class="search">
+      <input type="search" id="searchInput" placeholder="Найти пиццу, роллы, напиток..." oninput="searchMenu(this.value)">
+    </div>
     <div class="header-right">
       <button class="btn" id="themeBtn" onclick="toggleTheme()" title="Тёмная / светлая тема"></button>
       <div class="header-right" id="userBox"></div>
@@ -18,10 +21,12 @@
   </header>
 
   <div class="layout">
+    <!-- Категории (слева) -->
+    <aside class="side" id="tabs"></aside>
+
     <main class="content">
       <!-- Меню -->
-      <h1>Меню</h1>
-      <div class="tabs" id="tabs"></div>
+      <h1 id="menuTitle">Меню</h1>
       <div class="grid" id="menu"></div>
 
       <!-- Блок «Выгода» под меню -->
@@ -49,6 +54,32 @@
       <button class="btn btn-main" onclick="checkout()">Оформить заказ</button>
     </aside>
   </div>
+
+  <!-- Футер -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div>
+        <a class="logo" href="index.html">PizzaSushiWrot</a>
+        <p>Доставка горячей пиццы и свежих суши. Готовим быстро, привозим вовремя.</p>
+      </div>
+      <div class="contact">
+        <h3>Контакты</h3>
+        <a href="tel:+79771207974">📞 +7 977 120-79-74</a>
+        <a href="mailto:example@gmail.com">✉️ example@gmail.com</a>
+        <p>📍 ул. Центральная, 1</p>
+        <p>🕒 Ежедневно с 10:00 до 23:00</p>
+      </div>
+      <div>
+        <h3>Обратная связь</h3>
+        <p>Есть вопрос или пожелание? Позвоните или напишите нам — ответим в течение дня.</p>
+        <div class="footer-btns">
+          <a class="btn btn-main" href="tel:+79771207974">Позвонить</a>
+          <a class="btn" href="mailto:example@gmail.com">Написать</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 PizzaSushiWrot. Все права защищены.</div>
+  </footer>
 
   <!-- Чек -->
   <div class="modal" id="checkModal">
