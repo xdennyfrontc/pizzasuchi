@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Админ-панель — PizzaSushiWrot</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="header">
+    <a class="logo" href="index.html">PizzaSushiWrot</a>
+    <div class="header-right">
+      <button class="btn" id="themeBtn" onclick="toggleTheme()" title="Тёмная / светлая тема"></button>
+      <a class="btn" href="index.html">На сайт</a>
+    </div>
+  </header>
+
+  <main class="content" style="margin-top:16px">
+    <h2>Добавить товар</h2>
+    <div class="form">
+      <input id="pName" placeholder="Название">
+      <input id="pDesc" placeholder="Описание">
+      <input id="pPrice" type="number" placeholder="Цена, ₽">
+      <input id="pOld" type="number" placeholder="Старая цена, ₽ (для скидки, можно пусто)">
+      <select id="pCat"></select>
+      <button class="btn btn-main" onclick="addProduct()">Добавить</button>
+    </div>
+
+    <h2>Товары</h2>
+    <table id="productsTable"></table>
+    <h2>Пользователи</h2>
+    <table id="usersTable"></table>
+    <h2>Заказы</h2>
+    <table id="ordersTable"></table>
+  </main>
+
+  <script src="js/storage.js"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

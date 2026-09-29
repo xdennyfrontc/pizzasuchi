@@ -1,58 +1,93 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PizzaSushiWrot</title>
-    <link rel="stylesheet" href="css/main.css" />
-    <link rel="stylesheet" href="pages/menu.html" />
-  </head>
-  <body>
-    <header class="header">
-      <div class="header__logo">
-        <div class="logo-mark">
-          <span></span>
-        </div>
-        <span class="logo-text">PizzaSushiWrot</span>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PizzaSushiWrot — доставка пиццы и суши</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Шапка сайта -->
+  <header class="header">
+    <a class="logo" href="index.html">PizzaSushiWrot</a>
+    <div class="header-right">
+      <button class="btn" id="themeBtn" onclick="toggleTheme()" title="Тёмная / светлая тема"></button>
+      <div class="header-right" id="userBox"></div>
+    </div>
+  </header>
+
+  <div class="layout">
+    <main class="content">
+      <!-- Меню -->
+      <h1>Меню</h1>
+      <div class="tabs" id="tabs"></div>
+      <div class="grid" id="menu"></div>
+
+      <!-- Блок «Выгода» под меню -->
+      <h1 class="deal-title">Выгода</h1>
+      <div class="banner" id="banner"></div>
+      <div class="grid" id="deals"></div>
+    </main>
+
+    <!-- Корзина -->
+    <aside class="cart">
+      <h2>Корзина</h2>
+      <div id="cartList"></div>
+
+      <div class="mode">
+        <label><input type="radio" name="mode" value="delivery" checked onchange="setMode('delivery')">Доставка</label>
+        <label><input type="radio" name="mode" value="pickup" onchange="setMode('pickup')">Самовывоз</label>
       </div>
+      <input type="text" id="address" placeholder="Адрес доставки">
+      <div class="hint" id="pickupInfo" style="display:none"></div>
 
-      <div class="header__search">
-        <svg width="20" height="20" viewBox="0 0 24 24">
-          <path
-            d="M21 21l-4.35-4.35M10.8 18a7.2 7.2 0 1 1 0-14.4
-        7.2 7.2 0 0 1 0 14.4Z"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2.2"
-            stroke-linecap="round"
-          />
-        </svg>
+      <div class="hint" id="freeHint"></div>
+      <div class="hint" id="timeInfo"></div>
+      <div class="total" id="cartTotal"></div>
+      <button class="btn" onclick="showCheck()">Посмотреть чек</button>
+      <button class="btn btn-main" onclick="checkout()">Оформить заказ</button>
+    </aside>
+  </div>
 
-        <span>Искать</span>
+  <!-- Чек -->
+  <div class="modal" id="checkModal">
+    <div class="modal-box wide">
+      <h2>Чек</h2>
+      <div id="checkBody"></div>
+      <span class="link" onclick="document.getElementById('checkModal').classList.remove('open')">Закрыть</span>
+    </div>
+  </div>
+
+  <!-- Окно входа и регистрации -->
+  <div class="modal" id="authModal">
+    <div class="modal-box">
+      <div id="loginForm">
+        <h2>Вход</h2>
+        <input id="loginEmail" type="email" placeholder="Email">
+        <input id="loginPass" type="password" placeholder="Пароль">
+        <div class="error" id="loginError"></div>
+        <button class="btn btn-main" onclick="login()">Войти</button>
+        <span class="link" onclick="showForm('register')">Нет аккаунта? Регистрация</span>
       </div>
+      <div id="registerForm" style="display:none">
+        <h2>Регистрация</h2>
+        <input id="regName" placeholder="Имя">
+        <input id="regEmail" type="email" placeholder="Email">
+        <input id="regPass" type="password" placeholder="Пароль (от 6 символов)">
+        <div class="captcha" id="captchaText"></div>
+        <input id="captchaInput" placeholder="Ответ на пример">
+        <div class="error" id="regError"></div>
+        <button class="btn btn-main" onclick="register()">Зарегистрироваться</button>
+        <span class="link" onclick="showForm('login')">Уже есть аккаунт? Войти</span>
+      </div>
+      <span class="link" onclick="closeAuth()">Закрыть</span>
+    </div>
+  </div>
 
-      <button class="header__login">
-        <svg width="21" height="21" viewBox="0 0 24 24">
-          <path
-            d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm-7 8
-        c.6-4 3-6 7-6s6.4 2 7 6"
-            fill="currentColor"
-          />
-        </svg>
-
-        <span>Войти</span>
-      </button>
-
-      <button class="header__messages">
-        <svg width="21" height="21" viewBox="0 0 24 24">
-          <path d="M5 18.5A8 8 0 1 1 8.5 21L5 22l.7-3.5Z" fill="currentColor" />
-          <circle cx="9" cy="12" r="1" fill="white" />
-          <circle cx="12" cy="12" r="1" fill="white" />
-          <circle cx="15" cy="12" r="1" fill="white" />
-        </svg>
-      </button>
-    </header>
-
-
-  </body>
+  <script src="js/storage.js"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+</body>
 </html>
