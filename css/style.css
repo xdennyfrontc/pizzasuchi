@@ -125,4 +125,28 @@ button { color: var(--text); font-size: inherit; }
   .side .tab { white-space: nowrap; }
   .footer-grid { grid-template-columns: 1fr; }
   .search { order: 3; max-width: 100%; flex-basis: 100%; }
+
+}.img img.contain { object-fit: contain; }
+
+/* Цена всегда внизу карточки, описание не больше 2 строк */
+.card { display: flex; flex-direction: column; }
+.card .row { margin-top: auto; }
+.desc {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;        /* максимум 2 строки */
+  -webkit-box-orient: vertical;
+  overflow: hidden;             /* остальное скрываем, в конце появится «…» */
 }
+
+/* Отключаем стандартное плавное растворение, чтобы работал только наш круг */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* Плашка «Отменить» внизу экрана */
+.undo { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 10;
+  align-items: center; gap: 16px; padding: 10px 10px 10px 22px; border-radius: 24px;
+  background: var(--text); color: var(--bg); box-shadow: 0 6px 24px rgba(0,0,0,.3); }
+.undo .btn { margin: 0; }

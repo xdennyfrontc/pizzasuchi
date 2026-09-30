@@ -51,9 +51,10 @@ function cardHtml(p) {
     badge = '<span class="badge">−' + percent + '%</span>';
     price = '<span><b class="green">' + p.price + ' ₽</b> <s class="old">' + p.oldPrice + ' ₽</s></span>';
   }
-  const picture = p.image ? '<img src="' + p.image + '">' : 'Фото';
+  const fit = p.fit ? ' class="' + p.fit + '"' : '';
+  const picture = p.image ? '<img src="' + p.image + '"' + fit + '>' : 'Фото';
   return '<div class="card"><div class="img">' + picture + badge + '</div>' +
-    '<h3>' + p.name + '</h3><p class="desc">' + p.desc + '</p>' +
+    '<h3>' + p.name + '</h3><p class="desc" title="' + p.desc + '">' + p.desc + '</p>' +
     '<div class="row">' + price + '<button class="add" onclick="addToCart(' + p.id + ')">+</button></div></div>';
 }
 

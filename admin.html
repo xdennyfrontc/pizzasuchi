@@ -10,7 +10,7 @@
   <header class="header">
     <a class="logo" href="index.html">PizzaSushiWrot</a>
     <div class="header-right">
-      <button class="btn" id="themeBtn" onclick="toggleTheme()" title="Тёмная / светлая тема"></button>
+      <button class="btn" id="themeBtn" onclick="toggleTheme(event)" title="Тёмная / светлая тема"></button>
       <a class="btn" href="index.html">На сайт</a>
     </div>
   </header>
@@ -18,10 +18,12 @@
   <main class="content" style="margin-top:16px">
     <h2>Добавить товар</h2>
     <div class="form">
+      <input id="pId" type="number" min="1" placeholder="ID = место в меню (пусто = в конец)">
       <input id="pName" placeholder="Название">
       <input id="pDesc" placeholder="Описание">
       <input id="pPrice" type="number" placeholder="Цена, ₽">
       <input id="pOld" type="number" placeholder="Старая цена, ₽ (для скидки, можно пусто)">
+      <input id="pImage" placeholder="Фото: img/???.webp или ссылка (можно пусто)">
       <select id="pCat"></select>
       <button class="btn btn-main" onclick="addProduct()">Добавить</button>
     </div>
@@ -32,6 +34,13 @@
     <table id="usersTable"></table>
     <h2>Заказы</h2>
     <table id="ordersTable"></table>
+
+        <!-- Плашка отмены удаления -->
+    <div class="undo" id="undoBar" style="display:none">
+      <span id="undoText"></span>
+      <button class="btn btn-main" onclick="undoDelete()">↩ Отменить</button>
+    </div>
+  </main>
   </main>
 
   <script src="js/storage.js"></script>
