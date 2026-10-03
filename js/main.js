@@ -42,22 +42,6 @@ function searchMenu(text) {
   renderMenu();
 }
 
-// HTML одной карточки товара (если есть старая цена — зелёная цена, скидка и перечёркнутая цена)
-function cardHtml(p) {
-  let badge = '';
-  let price = '<b>' + p.price + ' ₽</b>';
-  if (p.oldPrice > p.price) {
-    const percent = Math.round((p.oldPrice - p.price) / p.oldPrice * 100);
-    badge = '<span class="badge">−' + percent + '%</span>';
-    price = '<span><b class="green">' + p.price + ' ₽</b> <s class="old">' + p.oldPrice + ' ₽</s></span>';
-  }
-  const fit = p.fit ? ' class="' + p.fit + '"' : '';
-  const picture = p.image ? '<img src="' + p.image + '"' + fit + '>' : 'Фото';
-  return '<div class="card"><div class="img">' + picture + badge + '</div>' +
-    '<h3>' + p.name + '</h3><p class="desc" title="' + p.desc + '">' + p.desc + '</p>' +
-    '<div class="row">' + price + '<button class="add" onclick="addToCart(' + p.id + ')">+</button></div></div>';
-}
-
 function renderMenu() {
   let list = getProducts();
   if (query !== '') {
@@ -77,6 +61,54 @@ function renderDeals() {
   document.getElementById('deals').innerHTML = deals.map(cardHtml).join('');
 }
 
+// Сколько штук товара в корзине
+function qtyOf(id) {
+  const item = cart.find(c => c.id === id);
+  return item ? item.qty : 0;
+}
+
+// Кнопка «+» или счётчик «− 1 +»: всегда строится заново из корзины
+function ctrlHtml(id) {
+  const qty = qtyOf(id);
+  if (qty === 0) return '<button class="add" onclick="addToCart(' + id + ')">+</button>';
+  return '<div class="qty">' +
+    '<button class="qty-minus" onclick="changeQty(' + id + ',-1)">−</button>' +
+    '<b class="qty-num">' + qty + '</b>' +
+    '<button class="qty-plus" onclick="addToCart(' + id + ')">+</button></div>';
+}
+
+// Вызывается после любого изменения корзины: перерисовывает только те карточки, где число изменилось
+function updateCtrls() {
+  document.querySelectorAll('.ctrl').forEach(el => {
+    const id = Number(el.dataset.id);
+    const before = Number(el.dataset.qty);
+    const now = qtyOf(id);
+    if (before === now) return;
+
+    el.innerHTML = ctrlHtml(id);
+    el.dataset.qty = now;
+    if (now > 0 && before === 0) el.firstElementChild.classList.add('pop');        // счётчик появился
+    if (now > 0 && before > 0) el.querySelector('.qty-num').classList.add('bump'); // число изменилось
+  });
+}
+
+function cardHtml(p) {
+  let badge = '';
+  let price = '<b>' + p.price + ' ₽</b>';
+  if (p.oldPrice > p.price) {
+    const percent = Math.round((p.oldPrice - p.price) / p.oldPrice * 100);
+    badge = '<span class="badge">−' + percent + '%</span>';
+    price = '<span><b class="green">' + p.price + ' ₽</b> <s class="old">' + p.oldPrice + ' ₽</s></span>';
+  }
+  const fit = p.fit ? ' class="' + p.fit + '"' : '';
+  const picture = p.image ? '<img src="' + p.image + '"' + fit + '>' : 'Фото';
+  return '<div class="card"><div class="img">' + picture + badge + '</div>' +
+    '<h3>' + p.name + '</h3><p class="desc" title="' + p.desc + '">' + p.desc + '</p>' +
+    '<div class="row">' + price +
+    '<div class="ctrl" data-id="' + p.id + '" data-qty="' + qtyOf(p.id) + '">' + ctrlHtml(p.id) + '</div>' +
+    '</div></div>';
+}
+
 // ---------- Корзина ----------
 function addToCart(id) {
   const item = cart.find(c => c.id === id);
@@ -91,7 +123,7 @@ function changeQty(id, delta) {
   saveCart();
 }
 
-function saveCart() { DB.set('cart', cart); renderCart(); }
+function saveCart() { DB.set('cart', cart); renderCart(); updateCtrls(); }
 
 function setMode(m) { mode = m; renderCart(); }
 

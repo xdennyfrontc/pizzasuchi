@@ -150,3 +150,74 @@ button { color: var(--text); font-size: inherit; }
   align-items: center; gap: 16px; padding: 10px 10px 10px 22px; border-radius: 24px;
   background: var(--text); color: var(--bg); box-shadow: 0 6px 24px rgba(0,0,0,.3); }
 .undo .btn { margin: 0; }
+
+/* Анимация карточки при наведении */
+.card {
+  position: relative;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Только для устройств с мышью, чтобы на телефоне карточка не «залипала» после касания */
+@media (hover: hover) {
+  .card:hover {
+    transform: scale(1.04);                      /* чуть больше */
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18); /* тень */
+    z-index: 1;                                  /* поверх соседних карточек */
+  }
+  body.dark .card:hover {
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.55); /* в тёмной теме тень должна быть гуще */
+  }
+}
+
+/* ===== Кнопка «+» и счётчик на карточке ===== */
+:root { --minus-bg: #dcdcdc; --minus-text: #555; --minus-hover: #c9c9c9; }
+body.dark { --minus-bg: #48484c; --minus-text: #ddd; --minus-hover: #5a5a5f; }
+
+.row { gap: 6px; }
+.row b, .row s { white-space: nowrap; }   /* цена не переносится на две строки */
+.ctrl { flex-shrink: 0; }
+
+.add, .qty-minus, .qty-plus {
+  padding: 0; border: none; border-radius: 50%; line-height: 1;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform .15s ease, background .15s ease, color .15s ease, box-shadow .15s ease;
+}
+.qty-minus, .qty-plus { width: 30px; height: 30px; font-size: 18px; }
+.qty-plus  { background: var(--main-light); color: var(--main); }     /* «+» розовый */
+.qty-minus { background: var(--minus-bg);   color: var(--minus-text); } /* «−» серый */
+
+.qty { display: flex; align-items: center; gap: 4px; }
+.qty-num { min-width: 18px; text-align: center; font-size: 15px; }
+
+/* Наведение (только для мыши) и нажатие */
+@media (hover: hover) {
+  .add:hover, .qty-plus:hover { background: var(--main); color: #fff; transform: scale(1.12);
+    box-shadow: 0 4px 12px rgba(255, 59, 92, .4); }
+  .qty-minus:hover { background: var(--minus-hover); transform: scale(1.12); }
+}
+.add:active, .qty-plus:active, .qty-minus:active { transform: scale(.85); }
+
+/* Появление счётчика и «подпрыгивание» числа */
+.qty.pop { animation: pop-in .25s ease; }
+.qty-num.bump { animation: bump .2s ease; }
+@keyframes pop-in { from { opacity: 0; transform: scale(.6); } to { opacity: 1; transform: scale(1); } }
+@keyframes bump { 50% { transform: scale(1.35); } }
+
+/* Логотип слева от названия; высота = высота заглавной буквы */
+.logo { display: inline-flex; align-items: center; gap: 8px; }
+.logo img { height: 1.5em; width: auto; }
+
+/* В футере логотип стоял блоком, оставляем это поведение */
+.footer .logo { display: flex; width: fit-content; }
+
+/* Анимация розовых кнопок (в том числе «Оформить заказ») */
+.btn-main {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+@media (hover: hover) {
+  .btn-main:hover {
+    transform: scale(1.04);
+    box-shadow: 0 4px 12px rgba(255, 59, 92, 0.4);
+  }
+}
+.btn-main:active { transform: scale(0.96); }
